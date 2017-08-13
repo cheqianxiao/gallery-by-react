@@ -13,13 +13,15 @@ class ImgFigure extends React.Component {
 		let {pos,rotate,isInverse,isCenter} = this.props.imgSetting
 		let styleObj = {}
 		styleObj = pos;
+		//如果有旋转角度
 		if(rotate){
 			(['MozTransform', 'msTransform', 'WebkitTransform', 'transform']).forEach((val,index)=>{
-			styleObj[val] = 'rotate('+rotate+'deg)'
+				styleObj[val] = 'rotate('+rotate+'deg)'
 			})
 		}
-		
+		isCenter && (styleObj['zIndex'] = 11)
 		let imgClassName = 'img-figure'
+		//如果需要翻转
 		isInverse && (imgClassName+=' is-inverse')
 		return (
 			<figure className={imgClassName} style={styleObj} onClick={this.handleClick.bind(this)}>
