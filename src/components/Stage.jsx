@@ -1,13 +1,17 @@
 import React from 'react'  
 import ImgFigure from './ImgFigure'
-import ControlNav from './ControlNav'
+import ControllerDot from './ControllerDot'
 import ReactDOM from 'react-dom'
 
-import imgsData from '../data/imgsData.json'
+import data from '../data/imgsData.json'
+let imgsData = data.map((val,index)=>{
+	return {imgUrl: require('../images/'+val.filename), ...val}
+})
 //获得区间的一个随机数 
 function getRandomInRange(range){
 	return Math.ceil(Math.random()*(range[1]-range[0])) + range[0]
 }
+
 class Stage extends React.Component{
 	constructor(){
 		super()
@@ -68,47 +72,44 @@ class Stage extends React.Component{
      */
     reArrange(centerIndex) {
     	let constant = this.constant
-    	let imgSettingsArr = this.state.imgSettings
-    	console.log(imgSettingsArr.length)
+    	let imgSettingsArr = [...this.state.imgSettings]
     	//要放在上侧的图片数量  0或1  随机
     	let imgToppedNum = Math.floor(Math.random()*2)
     	//将需要居中的图片先从数组中剔除
     	let imgCentered = imgSettingsArr.splice(centerIndex,1)[0]
-    	console.log(imgSettingsArr.length)
     	//将指定的图片居中  
     	imgCentered = {
     		pos: constant.centerPos,
     		rotate: 0,
-    		isCerter: true,
+    		isCenter: true,
     		isInverse: false
     	}
     	//再从剩下的图片中随机选imgToppedNum张图片布局在上侧  
     	let imgToppedSpliceIndex = Math.ceil(Math.random()*(imgSettingsArr.length-imgToppedNum))
     	let imgToppedArr = imgSettingsArr.splice(imgToppedSpliceIndex,imgToppedNum)
-    	console.log(imgSettingsArr.length)
     	imgToppedArr.forEach((val,index)=>{
     		imgToppedArr[index] = {
     			pos: {
     				left: getRandomInRange(constant.topSecRangeX),
     				top: getRandomInRange(constant.topSecRangeY)
     			},
+    			rotate: getRandomInRange([-30,30]),
     			isInverse: false,
     			isCenter: false
     		}
     		//分配位置
     	})
-    	console.log(imgToppedArr)
 
     	//剩下的图片左右各放一半
     	var halfIndex = imgSettingsArr.length / 2
     	imgSettingsArr.forEach((val,index)=>{
     		let LORSecRangeX = index < halfIndex ?  constant.leftSecRangeX : constant.rightSecRangeX
-    		console.log(getRandomInRange(constant.LRSecRangeY))
     		imgSettingsArr[index] = {
     			pos: {
     				left: getRandomInRange(LORSecRangeX),
     				top: getRandomInRange(constant.LRSecRangeY)
     			},
+    			rotate: getRandomInRange([-30,30]),
     			isInverse: false,
     			isCenter: false
     		}
@@ -124,13 +125,25 @@ class Stage extends React.Component{
     	})
 
     }
-
+    inverse(index){
+    	return function(){
+    		this.state.imgSettings[index].isInverse = !this.state.imgSettings[index].isInverse
+    		this.setState({imgSettings: this.state.imgSettings})
+        }.bind(this)
+    	
+    }
+    center(index){
+    	return function(){
+    		this.reArrange(index)
+    	}.bind(this)
+    }
 	render() {
 		let ImgFigures = []
+		let ControllerNav = []
 		let that = this
 		imgsData.forEach((imgData,index)=>{
-			
-			that.state.imgSettings.push({
+			if(!that.state.imgSettings[index]){
+				that.state.imgSettings[index] = {
     			pos: {
     				left: 0,
     				top: 0
@@ -138,15 +151,20 @@ class Stage extends React.Component{
     			rotate: 0,
     			isCenter: false,
     			isInverse: false
-	    	})
-	    	ImgFigures.push(<ImgFigure key={index} data={imgData} ref={"imgFigure"+index} imgSetting={this.state.imgSettings[index]}/>)
+	    	 }
+			}
+			
+	    	ImgFigures.push(<ImgFigure key={index} center={that.center(index)} inverse={that.inverse(index)} data={imgData} ref={"imgFigure"+index} imgSetting={this.state.imgSettings[index]}/>)
+	    	ControllerNav.push(<ControllerDot key={index} imgSetting={this.state.imgSettings[index]} center={that.center(index)} inverse={that.inverse(index)}/>)
 		})
 
 		return (<div className="stage" ref="stage">
 			<section className="img-sec">
 				{ImgFigures}
 			</section>
-			<ControlNav data={imgsData}/>
+			<nav className="controller-nav">
+				{ControllerNav}
+			</nav>
 		</div>)
 	}
 }
