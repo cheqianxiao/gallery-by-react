@@ -5,8 +5,8 @@
 #### 说明 
 * 这个项目是看完课程[React实践图片画廊应用](http://www.imooc.com/learn/652)后完成的(非原创)
 * 讲师的该项目github地址[materliu/gallery-by-react](https://github.com/materliu/gallery-by-react) 
-* 使用脚手架[facebookincubator/create-react-app](https://github.com/facebookincubator/create-react-app)搭建  
-* 在线demo[http://cheqianxiao.github.io/](http://cheqianxiao.github.io/gallery-by-react)  
+* 使用脚手架[create-react-app](https://github.com/facebookincubator/create-react-app)搭建  
+* 在线demo[gallery-by-react](http://cheqianxiao.github.io/gallery-by-react)  
 #### 笔记  
 * **定义组件的方式**   
 
@@ -35,34 +35,34 @@
 
 * **获取原生DOM**   
 
-	class CustomTextInput extends React.Component {
-	  constructor(props) {
-	    super(props);
-	    this.focus = this.focus.bind(this);
-	  }
+		class CustomTextInput extends React.Component {
+		  constructor(props) {
+		    super(props);
+		    this.focus = this.focus.bind(this);
+		  }
 
-	  focus() {
-	    // Explicitly focus the text input using the raw DOM API
-	    this.textInput.focus();
-	  }
+		  focus() {
+		    // Explicitly focus the text input using the raw DOM API
+		    this.textInput.focus();
+		  }
 
-	  render() {
-	    // Use the `ref` callback to store a reference to the text input DOM
-	    // element in an instance field (for example, this.textInput).
-	    return (
-	      <div>
-	        <input
-	          type="text"
-	          ref={(input) => { this.textInput = input; }} />
-	        <input
-	          type="button"
-	          value="Focus the text input"
-	          onClick={this.focus}
-	        />
-	      </div>
-	    );
-	  }
-	}
+		  render() {
+		    // Use the `ref` callback to store a reference to the text input DOM
+		    // element in an instance field (for example, this.textInput).
+		    return (
+		      <div>
+		        <input
+		          type="text"
+		          ref={(input) => { this.textInput = input; }} />
+		        <input
+		          type="button"
+		          value="Focus the text input"
+		          onClick={this.focus}
+		        />
+		      </div>
+		    );
+		  }
+		}
 
 	ref属性的值为一个回调函数，在组件载入和移除时调用。  
 
