@@ -6,7 +6,7 @@
 * 这个项目是看完课程[React实践图片画廊应用](http://www.imooc.com/learn/652)后完成的(非原创)
 * 讲师的该项目github地址[materliu/gallery-by-react](https://github.com/materliu/gallery-by-react) 
 * 使用脚手架[facebookincubator/create-react-app](https://github.com/facebookincubator/create-react-app)搭建  
-* 在线demo  
+* 在线demo[http://cheqianxiao.github.io/](http://cheqianxiao.github.io/gallery-by-react)  
 #### 笔记  
 * **定义组件的方式**   
 
@@ -33,7 +33,7 @@
 		  },
 		});
 
-* 获取原生DOM   
+* **获取原生DOM**   
 
 	class CustomTextInput extends React.Component {
 	  constructor(props) {
@@ -78,9 +78,9 @@ state作为组件自身的状态，props是父组件传递给子组件的属性�
 
   		Math.floor(Math.random() * 2) 
 
-* **图片位置范围  
+* **图片位置范围**  
 
  ![图片位置范围示意图](http://7xq6lv.com1.z0.glb.clouddn.com/gallery_stage.png)  
  淡黄色区域为舞台区域  
- 
+
  粉红色区域为上侧图片存在的范围  
