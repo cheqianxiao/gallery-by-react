@@ -5,11 +5,11 @@ import ControllerDot from './ControllerDot'
 
 import data from '../data/imgsData.json'
 let imgsData = data.map((val,index)=>{
-	return {imgUrl: require('../images/'+val.filename), ...val}
+	return {imgUrl: require('../images/' + val.filename), ...val}
 })
 //获得区间的一个随机数 
 function getRandomInRange(range){
-	return Math.ceil(Math.random()*(range[1]-range[0])) + range[0]
+	return Math.ceil(Math.random() * (range[1] - range[0])) + range[0]
 }
 
 class Stage extends React.Component{
@@ -41,11 +41,11 @@ class Stage extends React.Component{
 			top: halfStageH - halfImgH
 		} 
 		//左侧、右侧、上侧图片的top、left取值范围	 
-  	this.constant.leftSecRangeX = [-halfImgW, halfStageW - 3*halfImgW]
+  	this.constant.leftSecRangeX = [- halfImgW, halfStageW - 3 * halfImgW]
   	this.constant.rightSecRangeX = [halfStageW + halfImgW, stageW - halfImgW ]
-  	this.constant.LRSecRangeY = [-halfImgH,halfStageH-halfImgH]  
-  	this.constant.topSecRangeX = [halfStageW-halfImgW,halfStageW + halfImgW]
-  	this.constant.topSecRangeY = [-halfImgH,halfStageH - 3*halfImgH]  
+  	this.constant.LRSecRangeY = [- halfImgH,stageH - halfImgH]  
+  	this.constant.topSecRangeX = [halfStageW - halfImgW,halfStageW + halfImgW]
+  	this.constant.topSecRangeY = [- halfImgH,halfStageH - 3 * halfImgH]  
   	this.reArrange(0)
   }
   /* 
@@ -58,7 +58,7 @@ class Stage extends React.Component{
   	//要放在上侧的图片数量  0或1  随机
   	let imgToppedNum = Math.floor(Math.random()*2)
     //将要居中的图片先从数组中剔除
-  	let imgCentered = imgSettingsArr.splice(centerIndex,1)[0]
+  	let imgCentered = imgSettingsArr.splice(centerIndex, 1)[0]
   	//设置为居中 
   	imgCentered = {
   		pos: constant.centerPos,
@@ -75,7 +75,7 @@ class Stage extends React.Component{
   				left: getRandomInRange(constant.topSecRangeX),
   				top: getRandomInRange(constant.topSecRangeY)
   			},
-  			rotate: getRandomInRange([-30,30]),
+  			rotate: getRandomInRange([-30, 30]),
   			isInverse: false,
   			isCenter: false
   		}
@@ -90,14 +90,14 @@ class Stage extends React.Component{
   				top: getRandomInRange(constant.LRSecRangeY)
   			},
   			//旋转角度为正负30度之间
-  			rotate: getRandomInRange([-30,30]),
+  			rotate: getRandomInRange([-30, 30]),
   			isInverse: false,
   			isCenter: false
   		}
   	})
   	//将剔除的元素再插回去
-  	imgToppedArr[0] && imgSettingsArr.splice(imgToppedSpliceIndex,0,imgToppedArr[0])
-  	imgSettingsArr.splice(centerIndex,0,imgCentered)  
+  	imgToppedArr[0] && imgSettingsArr.splice(imgToppedSpliceIndex, 0, imgToppedArr[0])
+  	imgSettingsArr.splice(centerIndex, 0, imgCentered)  
   	this.setState({
   		imgSettings: imgSettingsArr
   	})
@@ -105,8 +105,9 @@ class Stage extends React.Component{
   //翻转图片
   inverse(index){
   	return function(){
-  		this.state.imgSettings[index].isInverse = !this.state.imgSettings[index].isInverse
-  		this.setState({imgSettings: this.state.imgSettings})
+  		let imgSettings = [...this.state.imgSettings]  
+  		imgSettings[index].isInverse = !imgSettings[index].isInverse
+  		this.setState({imgSettings})
       }.bind(this)
   }
   //居中图片
