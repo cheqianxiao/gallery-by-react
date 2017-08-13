@@ -24,13 +24,13 @@ class Stage extends React.Component{
   //舞台加载之后排布每张图片的位置  
   componentDidMount() {
     //获取舞台大小
-    let stageDom = this.refs.stage,
+    let stageDom = this.stage,
 	    stageW = stageDom.scrollWidth,
 	    stageH = stageDom.scrollHeight,
 	    halfStageW = Math.ceil(stageW/2),
 	    halfStageH = Math.ceil(stageH/2),
 	  //一个imgFigure大小  
-		  imgFigureDom = ReactDOM.findDOMNode(this.refs.imgFigure0),
+		  imgFigureDom = ReactDOM.findDOMNode(this.imgFigure0),
 	    imgW = imgFigureDom.scrollWidth,
 	    imgH = imgFigureDom.scrollHeight,
 	    halfImgH = Math.ceil(imgH/2),
@@ -133,11 +133,11 @@ class Stage extends React.Component{
 	    	 }
 			}
 			
-	    ImgFigures.push(<ImgFigure key={index} center={that.center(index)} inverse={that.inverse(index)} data={imgData} ref={"imgFigure"+index} imgSetting={this.state.imgSettings[index]}/>)
+	    ImgFigures.push(<ImgFigure key={index} center={that.center(index)} inverse={that.inverse(index)} data={imgData} ref={node => this["imgFigure"+index] = node} imgSetting={this.state.imgSettings[index]}/>)
 	    ControllerNav.push(<ControllerDot key={index} imgSetting={this.state.imgSettings[index]} center={that.center(index)} inverse={that.inverse(index)}/>)
 		})
 		return (
-			<div className="stage" ref="stage">
+			<div className="stage" ref={node => this.stage = node}>
 				<section className="img-sec">
 					{ImgFigures}
 				</section>
